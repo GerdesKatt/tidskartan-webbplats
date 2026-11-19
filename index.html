@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidskartan</title>
+<meta name="description" content="Tidskartan är en äventyrsserie från tio år av Nils Gerdes. Del 1, Trettioen steg, utspelar sig i Paris år 1241.">
+<meta property="og:title" content="Tidskartan – Trettioen steg">
+<meta property="og:description" content="Under farmors hus ligger en karta som tar tre barn till Paris år 1241.">
+<meta property="og:image" content="img/trettioen-steg-omslag.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+/* Layout: en natt i Paris. Mörkblått som omslaget, guld för det viktiga, kartans blå sken som enda ljuskälla. */
+:root{
+  --natt:#0c1322;
+  --sten:#151f35;
+  --pergament:#ebe5d6;
+  --dimma:#a3acbe;
+  --guld:#d0ab62;
+  --sken:#6cc3ee;
+  --display:"Cinzel","Trajan Pro",Georgia,serif;
+  --body:"Literata",Georgia,"Times New Roman",serif;
+  --ui:"Bricolage Grotesque",system-ui,sans-serif;
+  --mått:66ch;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--natt);color:var(--pergament);font-family:var(--body);font-size:1.075rem;line-height:1.7;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--guld)}
+a:focus-visible,.knapp:focus-visible{outline:2px solid var(--sken);outline-offset:3px}
+h1,h2,h3{text-wrap:balance;font-weight:500;margin:0}
+.inre{width:min(1080px,100% - 40px);margin-inline:auto}
+
+/* Sidhuvud */
+.topp{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--natt) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid #ffffff12}
+.topp .inre{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:14px}
+.topp img{height:46px;width:auto}
+.topp nav{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--ui);font-size:.9rem;font-weight:500}
+.topp nav a{color:var(--dimma);text-decoration:none}
+.topp nav a:hover{color:var(--pergament)}
+
+/* Öppning */
+.öppning{position:relative;overflow:hidden;padding-block:72px 88px}
+.öppning::before{content:"";position:absolute;inset:auto -20% -40% -20%;height:70%;background:radial-gradient(closest-side,#6cc3ee22,transparent 70%);pointer-events:none}
+.öppning .inre{position:relative;display:grid;grid-template-columns:minmax(220px,380px) 1fr;gap:64px;align-items:center}
+.omslag{border-radius:3px;box-shadow:0 30px 60px -20px #000c,0 0 0 1px #ffffff14;transform:rotate(-1.2deg)}
+.etikett{font-family:var(--ui);font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sken);margin:0 0 14px}
+.öppning h1{font-family:var(--display);font-size:clamp(2.6rem,6vw,4.4rem);line-height:1.05;letter-spacing:.02em;color:var(--guld)}
+.ingress{font-size:1.3rem;line-height:1.55;max-width:34ch;margin:22px 0 26px}
+.fakta{display:flex;flex-wrap:wrap;gap:8px 20px;padding:0;margin:0 0 32px;list-style:none;font-family:var(--ui);font-size:.92rem;color:var(--dimma)}
+.knappar{display:flex;flex-wrap:wrap;gap:12px}
+.knapp{display:inline-block;font-family:var(--ui);font-weight:700;font-size:1rem;text-decoration:none;padding:13px 24px;border-radius:999px;border:1px solid var(--guld)}
+.knapp.full{background:var(--guld);color:var(--natt)}
+.knapp.full:hover{background:#e0bd75}
+.knapp.tom{color:var(--guld)}
+.knapp.tom:hover{background:#d0ab6214}
+
+/* Trappan: trettioen steg */
+.trappa{display:flex;align-items:flex-end;gap:3px;height:34px;margin:0 auto;width:fit-content}
+.trappa span{width:6px;background:var(--guld);opacity:.55;border-radius:1px}
+.trappa span:last-child{background:var(--sken);opacity:1;box-shadow:0 0 10px var(--sken)}
+.trappa-text-oanvand{text-align:center;font-family:var(--ui);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimma);margin:10px 0 0}
+
+/* Avsnitt */
+section{padding-block:80px}
+.ljus{background:var(--sten)}
+.rubrik{font-family:var(--display);font-size:clamp(1.7rem,3.4vw,2.3rem);color:var(--guld);margin-bottom:28px}
+.text{max-width:var(--mått)}
+.text p{margin:0 0 1.1em}
+.text p:last-child{margin-bottom:0}
+.citat{font-style:italic;font-size:1.25rem;border-left:2px solid var(--sken);padding-left:20px;color:var(--pergament)}
+
+
+/* Utdraget: en boksida */
+.mitt{text-align:center}
+#utdrag .trappa{margin-bottom:28px}
+.sida{max-width:640px;margin:8px auto 0;padding:clamp(28px,5vw,56px);background:#111a2d;border:1px solid #ffffff12;border-radius:4px;box-shadow:0 20px 50px -30px #000}
+.prosa p{margin:0;text-indent:1.4em;font-size:1.12rem;line-height:1.75}
+.prosa p:first-child{text-indent:0}
+.prosa p:first-child::first-letter{font-family:var(--display);color:var(--guld);font-size:3.1em;float:left;line-height:.9;padding:6px 8px 0 0}
+.fortsatt p:first-child::first-letter{all:unset}
+.fortsatt p:first-child{text-indent:1.4em}
+.prosa .brytning{text-indent:0;text-align:center;color:var(--sken);margin:1.2em 0}
+.prosa .brytning + p{text-indent:0}
+.prosa .kartskrift{text-indent:0;text-align:center;font-family:var(--display);letter-spacing:.12em;color:var(--sken);text-shadow:0 0 12px #6cc3ee88;margin:1em 0}
+.mer summary{list-style:none;cursor:pointer;margin-top:28px;display:inline-block;font-family:var(--ui);font-weight:700;color:var(--guld);padding:11px 22px;border:1px solid var(--guld);border-radius:999px}
+.mer summary::-webkit-details-marker{display:none}
+.mer[open] summary{display:none}
+.mer summary:focus-visible{outline:2px solid var(--sken);outline-offset:3px}
+.slut{margin-top:36px;padding-top:28px;border-top:1px solid #ffffff14;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.slut p{margin:0;font-style:italic;color:var(--dimma)}
+
+.intro{max-width:52ch;margin:-8px auto 28px;text-align:center;font-style:italic;color:var(--dimma);font-size:1.08rem}
+
+
+/* Albumet */
+.underrubrik{margin:-18px 0 32px;font-style:italic;color:var(--dimma)}
+.album{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.foto{margin:0;display:flex;flex-direction:column;gap:12px}
+.ram{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -22px #000;border:1px solid #ffffff14}
+.ram img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.batteri{position:absolute;top:10px;right:10px;font-family:var(--ui);font-weight:700;font-size:.75rem;color:#ff8a7a;background:#0c1322cc;padding:3px 9px 3px 8px;border-radius:999px;border:1px solid #ff8a7a66;font-variant-numeric:tabular-nums}
+.batteri.halv{color:#e9c46a;border-color:#e9c46a66}
+.foto .vem{display:block;font-family:var(--ui);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sken);margin-bottom:4px;font-style:normal}
+.foto .besk{display:block;font-style:normal;color:var(--dimma);font-size:.92rem;margin-bottom:4px}
+.foto figcaption{font-style:italic;font-size:.98rem;color:var(--pergament);line-height:1.5}
+.not{margin:28px 0 0;font-family:var(--ui);font-size:.85rem;color:var(--dimma)}
+@media (max-width:860px){.album{grid-template-columns:1fr}}
+
+
+.lucka summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:40px;flex-wrap:wrap;padding:28px;border:1px solid #ffffff14;border-radius:12px;background:#0c1322;transition:border-color .2s}
+.lucka summary::-webkit-details-marker{display:none}
+.lucka summary:hover{border-color:var(--guld)}
+.lucka summary:focus-visible{outline:2px solid var(--sken);outline-offset:3px}
+.hog{position:relative;width:220px;height:150px;flex:none}
+.hog img{position:absolute;inset:0;width:200px;height:150px;object-fit:cover;border-radius:6px;border:5px solid var(--pergament);box-shadow:0 10px 24px -10px #000}
+.hog img:nth-child(1){transform:rotate(-8deg) translate(-6px,4px)}
+.hog img:nth-child(2){transform:rotate(5deg) translate(14px,-2px)}
+.hog img:nth-child(3){transform:rotate(-1deg) translate(4px,0)}
+.lucktext{display:flex;flex-direction:column;gap:6px}
+.lucktext strong{font-family:var(--ui);font-size:1.15rem;color:var(--guld)}
+.lucktext span{color:var(--dimma)}
+.lucka[open] summary{display:none}
+.lucka .album{margin-top:4px}
+
+/* Serien */
+.fraga{font-family:var(--display);color:var(--guld);font-size:1.35rem;line-height:1.45;text-wrap:balance;margin:1.4em 0!important}
+.liten{color:var(--dimma);font-size:.98rem}
+.böcker{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;list-style:none;padding:0;margin:40px 0 0}
+.bok{display:flex;flex-direction:column;gap:6px;padding:20px 18px;border-radius:6px;border:1px solid #ffffff14;min-height:150px}
+.bok .nr{font-family:var(--ui);font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dimma)}
+.bok .titel{font-family:var(--display);font-size:1.15rem;line-height:1.25}
+.bok .plats{font-family:var(--ui);font-size:.9rem;color:var(--dimma);margin-top:auto}
+.bok.nu{border-color:var(--guld);background:#d0ab620d}
+.bok.nu .titel{color:var(--guld)}
+.bok.nasta{border-color:#6cc3ee55}
+.bok.nasta .titel{color:var(--pergament)}
+.bok.sen .titel{color:var(--dimma)}
+
+/* Två spalter */
+.spalter{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.spalter h3{font-family:var(--ui);font-weight:700;font-size:1.05rem;margin-bottom:10px}
+
+/* Köp */
+.köp{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+.butik{border:1px dashed var(--sken);border-radius:8px;padding:28px;min-height:180px;display:flex;flex-direction:column;justify-content:center;gap:10px;background:#6cc3ee0a}
+.butik strong{font-family:var(--ui)}
+.butik p{margin:0;color:var(--dimma);font-size:.95rem}
+.butiker{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.butiker li{display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid #ffffff14;font-family:var(--ui)}
+.butiker li span:last-child{color:var(--dimma)}
+.isbn{font-family:var(--ui);font-variant-numeric:tabular-nums;color:var(--dimma);font-size:.92rem;margin-top:20px}
+
+/* Fot */
+footer{padding-block:56px;border-top:1px solid #ffffff12}
+footer .inre{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+footer img{height:72px;width:auto}
+footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-width:44ch}
+
+@media (max-width:860px){
+  .öppning .inre{grid-template-columns:1fr;gap:40px}
+  .omslag{max-width:280px;margin-inline:auto}
+  .böcker{grid-template-columns:repeat(2,1fr)}
+  .bok.nu{grid-column:1/-1}
+  .spalter,.köp{grid-template-columns:1fr;gap:36px}
+  .topp nav{display:none}
+  section{padding-block:60px}
+}
+</style>
+</head>
+<body>
+
+<header class="topp">
+  <div class="inre">
+    <a href="#"><img src="img/gerdes-katt.svg" alt="Gerdes &amp; Katt"></a>
+    <nav aria-label="Sidans delar">
+      <a href="#boken">Boken</a>
+      <a href="#utdrag">Läs ett utdrag</a>
+      <a href="#album">Album</a>
+      <a href="#serien">Serien</a>
+      <a href="#forfattaren">Författaren</a>
+      <a href="#kop">Köp</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="öppning">
+    <div class="inre">
+      <img class="omslag" src="img/trettioen-steg-omslag.jpg" alt="Omslaget till Trettioen steg: tre barn och en katt i ett dimmigt Paris framför Notre-Dame, med en lysande karta på marken." width="1000" height="1500">
+      <div>
+        <p class="etikett">Tidskartan · Del 1</p>
+        <h1>Trettioen steg</h1>
+        <p class="ingress">Under farmors hus ligger en karta som tar tre barn till Paris år 1241. Den lyser bara en kort stund, och varje gång måste de välja: gå hem eller stanna lite till.</p>
+        <ul class="fakta">
+          <li>Från 10 år</li>
+          <li>236 sidor</li>
+          <li>Häftad</li>
+          <li>Nils Gerdes</li>
+        </ul>
+        <div class="knappar">
+          <a class="knapp full" href="#kop">Köp boken</a>
+          <a class="knapp tom" href="#utdrag">Läs ett utdrag</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="boken" class="ljus">
+    <div class="inre">
+      <h2 class="rubrik">Om boken</h2>
+      <div class="text">
+        <p>Under farmors hus finns en trappa som ingen har berättat om. Längst ner ligger en karta av skinn. När den lyser tar den Alva, Elias och Sofia till Paris år 1241.</p>
+        <p>Där är det dimma, sten och ett katedralbygge där en båge just har rasat. En man ligger död under stenarna. En pojke får skulden.</p>
+        <p>Alva vet hur det är att få skulden. Hon tänker inte lämna honom. Men kartan lyser bara en kort stund, och varje gång den öppnar sig måste de välja. Gå hem. Eller stanna lite till.</p>
+        <p class="citat">Någon har valt fel förut. Och i dimman vid kajen står en man som vet vad de bär.</p>
+      </div>
+    </div>
+  </section>
+
+<section id="utdrag">
+    <div class="inre">
+      <div class="trappa" aria-hidden="true" id="trappa"></div>
+      <p class="etikett mitt">Läs ett utdrag</p>
+      <h2 class="rubrik mitt">Kapitel 2 – Passagen</h2>
+      <p class="intro">Det har regnat i tre dagar. I farmors bibliotek hittar Alva, Elias och deras kusin Sofia en öppning bakom en bokhylla. Innanför leder en stentrappa ner under huset. Farmors katt Leo går först. Barnen följer efter.</p>
+      <article class="sida">
+        <div class="prosa">
+          <p>På det åttonde trappsteget fick Alva spindelväv över munnen.</p>
+          <p>Hon stannade så tvärt att Elias gick in i hennes rygg.</p>
+          <p>”Vad?”</p>
+          <p>”Ingenting.”</p>
+          <p>Hon drog bort trådarna från läpparna. De var torra och fjäderlätta och smakade damm. Elias lyste med telefonen, och strålen skakade över trappstegen och skar fram sten efter sten ur mörkret. Han räknade lågt för sig själv.</p>
+          <p>”Åtta. Nio. Tio.”</p>
+          <p>”Måste du?” viskade Sofia från sista platsen.</p>
+          <p>De hade bytt ordning tre gånger innan de började gå. Ingen ville vara sist, och ingen ville vara först, och till slut hade Alva tagit första platsen, med Elias tätt bakom sig och lampan över hennes axel, och Sofia sist med ena handen i fållen på hans tröja.</p>
+          <p>Trappan var smal. I mitten hade stegen nötts till grunda skålar. Alva såg uppåt. Än syntes en bit av bibliotekets golv, ett grått fält där regnljuset föll in, redan mindre än det borde vara. Hon tänkte på farmor i köket med mjöl till armbågarna. Hon tänkte att de borde gå tillbaka, och gick sedan vidare neråt.</p>
+          <p>Det var nedanför det åttonde steget hon tänkte på det. Spindelväven hade bara hängt där uppe. Längre ner var stenen ren, och inte som städad sten är ren, utan som något som använts. Inget damm i trappstegens skålar.</p>
+          <p>Hon sa ingenting. Det var en för stor tanke för en trappa där man redan var rädd.</p>
+          <p>”Trettioen”, sa Elias bakom henne.</p>
+        </div>
+        <details class="mer">
+          <summary>Läs vidare</summary>
+          <div class="prosa fortsatt">
+          <p>Trappan slutade vid en låg öppning, och Alva fick böja huvudet för att komma igenom.</p>
+          <p>Innanför låg ett runt rum med välvt tak. Här fanns inga syltburkar, inga uttjänta madrasser, inga lådor med sladdar. Bara ett tungt träbord, en pall, en låg kista med järnbeslag mot väggen och en järnring i taket, svart av gammalt sot. Kistan hade ett hänglås, och låset var blankt.</p>
+          <p>Luften var sval och stod stilla, och den luktade läder, vax och något svagt av torkad lavendel, som i farmors garderob.</p>
+          <p>På bordet låg ett ark större än en tidning. Leo satt bredvid det.</p>
+          <p>”Där är du”, sa Sofia med en lättnad som gjorde rösten nästan arg.</p>
+          <p>Elias lät telefonens ljus följa bordet. Arket var gulnat, men inte jämnt. Kanterna hade mörknat som bränt bröd, och i ett hörn fanns en liten lagning gjord med tunn tråd. Det var inte papper. Hon såg det nu, hur ytan hade en nästan oljig glans och små porer som på en handled. Skinn. Över det löpte bruna streck mellan skuggade fält, och en bred linje delade sig och förenades igen runt två avlånga former.</p>
+          <p>”Det är en karta”, sa Elias. ”Över vad?”</p>
+          <p>På pallen låg ett läderfodral med axelrem. Spännet hade slitits blankt, och ena sidan var mörkare där någon burit det mot kroppen. Bredvid låg en bit grönt tyg. Alva tog upp den. Det var ett bokmärke, ett sådant farmor klippte av gamla band och lade i böcker hon aldrig läste färdigt. Hon lade tillbaka det.</p>
+          <p>”Hon har varit här.”</p>
+          <p>Sofia drog in Leo närmare. ”Då är det hennes. Vi ska inte röra.”</p>
+          <p>”Om vi tar upp den får hon förklara vad det är.” Alva lade handen på fodralet.</p>
+          <p>”Du kan inte ta den för att fråga om lov att ta den.”</p>
+          <p>Det var ett irriterande sätt att säga det på. Alva hann inte svara innan Leo vred sig ur Sofias armar. Hans baktassar tog spjärn mot hennes tröja, och sedan stod han på bordet med ena framtassen mitt på kartan.</p>
+          <p>”Leo!”</p>
+          <p>Katten sänkte nosen. Under hans morrhår, där tassen låg, tändes en tunn blå linje. Den följde en flod över arket.</p>
+          <p>Elias släckte telefonlampan, men rummet blev ändå ljusare och ljusare. Blått sken rann längs gator som inte funnits där en sekund tidigare, kallt och klart som isvatten i solljus. Små streck samlades till hus. En bro växte fram över floden, och på en ö reste sig en byggnad med höga bågformade öppningar. Skuggorna på väggarna började röra sig åt fel håll.</p>
+          <p>Längst ner på kartan trädde bokstäver fram, en i taget, som skrivna med osynligt bläck.</p>
+          <p class="kartskrift">PARISIUS. ANNO DOMINI MCCXLI.</p>
+          <p>”Det är latin”, sa Elias. Rösten var tunn. ”Parisius. Det måste vara Paris. Och årtalet … M är tusen. CC tvåhundra. XL fyrtio. I är ett.” Han svalde. ”Tolvhundrafyrtioett.”</p>
+          <p>Alva böjde sig närmare. Strecken var inte längre bara gator. Mellan dem fanns ett djup hon inte kunde få ögonen att begripa.</p>
+          <p>”Det är en projektor”, sa Elias, men han lät inte övertygad. Han lyfte blicken. Där fanns bara sten.</p>
+          <p>Luften i rummet började röra sig. Alva kände lukten först: rök, nybakat bröd, vått trä och något surt och skarpt som hon inte kunde placera. Sedan kom ljudet, ett avlägset sorl av röster som bakom en vägg. Ett rullande hjul, ett djur, någon som skrattade.</p>
+          <p>”Vi går nu”, sa Sofia.</p>
+          <p>Leo stod kvar. Kartans lösa hörn lyfte, trots att ingen vind kom från trappan. Alva grep tag i det innan det vek sig. Skinnet var varmt. Det pulserade svagt under hennes fingrar.</p>
+          <p>”Släpp.”</p>
+          <p>Hon försökte. Hon kunde släppa fingrarna, men i samma ögonblick kändes det som när en hiss sätter sig i rörelse och man själv står stilla. Magen stannade kvar medan resten av henne for vidare. Hon hann gripa fodralet från pallen och pressa kartan mot det. Sofia tog hennes arm. Elias försökte knuffa undan henne från andra sidan och fick tag i axelremmen. Stenarna under hennes fötter gav vika utan att spricka, som is som plötsligt blir till vatten. Hon såg Leo hoppa mot henne och fångade honom mot bröstet, hans päls full av elektricitet, ögonen gröna som flaskglas.</p>
+          <p>Sedan var golvet borta.</p>
+          <p class="brytning" aria-hidden="true">✦</p>
+          <p>Hon landade på knä.</p>
+          <p>Det gjorde så ont att hon inte kunde andas på ett par sekunder. Något hårt tryckte under högra knäskålen. När hon flyttade benet såg hon en sten sticka upp ur leran, vass som en tand.</p>
+          <p>Elias låg på sidan bredvid en korg med glasögonen skeva på näsan. Sofia satt med ryggen mot en vägg och båda händerna pressade mot marken, som om marken kunde fly.</p>
+          <p>Över dem lutade ett hus ut över gränden, så nära grannen mitt emot att himlen blev en smal grå remsa mellan takåsarna. På en lina hängde tre grå tygstycken, och vatten droppade från det mittersta rakt på Elias sko. Det luktade rök och stekt fett, våt sten och av något surt som verkade komma från alla håll.</p>
+          <p>Elias drog undan foten. ”Vad hände?”</p>
+          <p>Alva såg på kartan i sina armar. Den var fortfarande varm, men strecken hade slutat lysa. Hon hade pressat ihop den mot fodralet så att ena kanten vikt sig.</p>
+          <p>Leo klättrade ur hennes famn och hoppade upp på korgen.</p>
+          <p>En man gick förbi gränden med en träbåge över axlarna, och från den hängde två hinkar som svängde i takt med stegen. Han stannade, såg in på dem och sa något. Alva hörde det två gånger. Först som ljud som inte betydde något, grova vokaler och korta konsonanter. Sedan, på ett sätt som fick håret på armarna att resa sig, som en fullt begriplig fråga i hennes eget språk:</p>
+          <p>”Ska ni sitta där tills kärran kör över er?”</p>
+          <p>Hon reste sig för snabbt och fick stödja handen mot väggen. Stenen var kall och rörde sig inte. Mannen skakade på huvudet och gick vidare.</p>
+          <p>”Jag hörde …” sa Elias. ”Först hörde jag … Sedan förstod jag.”</p>
+          <p>Sofia såg upp. ”Nej. Det var på svenska.”</p>
+          <p>”Det var det inte.” Han hade tagit fram telefonen och tryckte på skärmen. ”Ingen täckning.” Han sa det sakligt, men fingrarna rörde sig för fort. ”Det här är fel.”</p>
+          <p>”Kartan”, sa Alva. ”Vi gör samma sak igen.”</p>
+          <p>De lade ut arket över korgens lock. Leo fick flytta på sig. Alva tryckte handen mot ordet Parisius, Elias lade sin bredvid och Sofia tvekade innan hon gjorde detsamma. Det var bara skinn under händerna, torrt och sprucket. Ingenting hände.</p>
+          <p>”Det var katten som började”, sa Elias.</p>
+          <p>Sofia lyfte Leo och satte hans tass på floden. Han drog undan den, och hon tog tag i den igen.</p>
+          <p>”En gång till.”</p>
+          <p>”Du håller min svans”, sa Leo.</p>
+          <p>Alla tre stelnade.</p>
+          <p>Rösten var låg och missbelåten, och den passade så väl till honom att det nästan gjorde saken värre. Alva såg hur munnen öppnades, och ljudet som kom ut var ett vanligt jamande. Men orden fanns där ändå, lika tydliga som mannens fråga. De kom inte genom luften. De kom någon annanstans.</p>
+          <p>Sofia släppte svansen.</p>
+          <p>Elias hukade sig framför katten. ”Har du alltid kunnat prata?”</p>
+          <p>”Jag har sagt att jag vill ner många gånger.”</p>
+          <p>Elias öppnade munnen, stängde den och satte sig på korgens kant.</p>
+          <p>Sofia tog Alvas hand. ”Jag vill hem.”</p>
+          <p>”Jag vet.”</p>
+          <p>”Nu.”</p>
+          <p>Alva nickade men hittade ingenting att lova. Elias höll telefonen i handflatan. Han slog på flygläge. Han tittade på skärmen, och sedan stängde han av den helt.</p>
+          <p>”Sjutton procent”, sa han. ”Den ska hålla tills vi vet …”</p>
+          <p>Ingen frågade vad de skulle veta.</p>
+          <p>Från gatan hördes hjul mot sten, röster, ett djur som råmade. Ljuden lät inte som inspelningar. De fortsatte oavsett om Alva lyssnade, som en hel värld som fanns här utan att bry sig om henne.</p>
+          <p>De rullade ihop kartan. Den passade i fodralet. Alva hängde det på ryggen med remmen snett över bröstet. Lädret var kallare än hon förväntade sig.</p>
+          <p>Över takåsarna hördes ett högt, regelbundet knarrande. Hon vände sig dit. Bortom en rad tak reste sig en stenbyggnad med höga öppningar, och längs ena sidan klängde en träställning. Vid det yttersta hörnet snurrade ett stort hjul med människor inuti, som ett hamsterhjul, men så stort att man behövde se det två gånger för att förstå vad det var.</p>
+          <p>Hon hade sett den byggnaden förr. Fast inte så här.</p>
+          <p>Ett knäpp hördes från samma håll. Torrt och kort. Hjulet stannade.</p>
+          <p>Sedan skrek någon.</p>
+          </div>
+          <div class="slut">
+            <p>Vad var det som hände vid katedralen?</p>
+            <a class="knapp full" href="#kop">Köp boken och läs vidare</a>
+          </div>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section id="album" class="ljus">
+    <div class="inre">
+      <h2 class="rubrik">Bilderna som aldrig togs</h2>
+      <p class="underrubrik">Om batteriet hade räckt.</p>
+      <details class="lucka">
+        <summary>
+          <span class="hog" aria-hidden="true">
+            <img src="img/album-tak.jpg" alt="">
+            <img src="img/album-alis.jpg" alt="">
+            <img src="img/album-kok.jpg" alt="">
+          </span>
+          <span class="lucktext">
+            <strong>Öppna albumet</strong>
+            <span>Åtta bilder från farmors hus och Paris 1241</span>
+          </span>
+        </summary>
+        <div class="album">
+        <figure class="foto">
+          <div class="ram"><img src="img/album-bibliotek.jpg" alt="Sofia tar en selfie i farmors bibliotek en regnig dag. Alva håller upp en trasig hasp, Elias har en skruv i handen och Leo sträcker fram en tass." width="1200" height="900" loading="lazy"><span class="batteri halv" aria-label="Batteri 19 procent">19 %</span></div>
+          <figcaption><span class="vem">Farmors bibliotek, kapitel 1</span><span class="besk">Alva håller upp den trasiga fönsterhaspen.</span>”Till mitt försvar var den här sommaren nästan tre dagar gammal.”</figcaption>
+        </figure>
+        <figure class="foto">
+          <div class="ram"><img src="img/album-trappan.jpg" alt="Alva tar en selfie i stentrappan under farmors hus. Elias lyser på sig själv underifrån och Sofia gömmer skrattet i tröjärmen." width="1200" height="900" loading="lazy"><span class="batteri halv" aria-label="Batteri 19 procent">19 %</span></div>
+          <figcaption><span class="vem">Trappan under farmors hus, kapitel 2</span><span class="besk">Elias håller ficklampan under hakan medan Sofia gömmer sitt skratt i tröjärmen.</span>Alvas bildtext: ”Vi bad honom lysa på stegen.”</figcaption>
+        </figure>
+        <figure class="foto">
+          <div class="ram"><img src="img/album-kok.jpg" alt="Alva, Sofia och Elias tar en selfie i Marthes kök. Marthe står med armarna i kors och Leo sitter bredvid tassavtryck i mjölet." width="1200" height="900" loading="lazy"><span class="batteri" aria-label="Batteri noll procent">0 %</span></div>
+          <figcaption><span class="vem">Alva i Marthes kök</span>”Leo nekar. Marthe vill gärna veta vem mer i köket som har tassar.”</figcaption>
+        </figure>
+        <figure class="foto">
+          <div class="ram"><img src="img/album-alis.jpg" alt="Selfie vid oubliebakarens stånd. Alis håller fram sin docka och på tunnlocket syns Sofias teckning av henne." width="1200" height="900" loading="lazy"><span class="batteri" aria-label="Batteri noll procent">0 %</span></div>
+          <figcaption><span class="vem">Sofia vid våffelståndet</span>”Alis hade ett villkor. Dockan skulle också vara med.”</figcaption>
+        </figure>
+        <figure class="foto">
+          <div class="ram"><img src="img/album-tunna.jpg" alt="Elias tar en selfie gömd bakom en tunna i en gränd med Alva, Sofia och Henri. Leo ligger på muren ovanför och har svansen i Elias ansikte." width="1200" height="900" loading="lazy"><span class="batteri" aria-label="Batteri 0 procent">0 %</span></div>
+          <figcaption><span class="vem">Ponces gård, kapitel 8</span><span class="besk">Fyra barn gömmer sig bakom tunnorna. Leos svans landar på Elias näsa.</span>”Försök att inte nysa. Hela vårt gömställe hänger på det.”</figcaption>
+        </figure>
+        <figure class="foto">
+          <div class="ram"><img src="img/album-anselme.jpg" alt="Alva tar en selfie i ett skrivarrum. Munken Anselme håller upp Elias glasögon med bläckiga fingrar och Elias kisar." width="1200" height="900" loading="lazy"><span class="batteri" aria-label="Batteri 0 procent">0 %</span></div>
+          <figcaption><span class="vem">Anselmes skrivarstuga, kapitel 11</span><span class="besk">Munken håller upp Elias glasögon i fönsterljuset. På ena glaset syns ett svart fingeravtryck.</span>”Du får gärna titta. Håll bara i båg… Okej.”</figcaption>
+        </figure>
+        <figure class="foto">
+          <div class="ram"><img src="img/album-stenboden.jpg" alt="Sofia tar en selfie i en stenbod vid floden. Alva håller en repände så att skuggan ser ut som en orm på väggen, och Elias ryggar tillbaka." width="1200" height="900" loading="lazy"><span class="batteri" aria-label="Batteri 0 procent">0 %</span></div>
+          <figcaption><span class="vem">Stenboden vid Grève, kapitel 15</span><span class="besk">Alva böjer en repände i fackelskenet och får en orm att resa sig på väggen.</span>Sofias bildtext: ”Elias säger att han såg repet direkt. Jag hann ta bilden först.”</figcaption>
+        </figure>
+        <figure class="foto">
+          <div class="ram"><img src="img/album-tak.jpg" alt="Elias tar en selfie på ett tak med Alva och Sofia. Henri kikar fram ur en taklucka och katedralbygget syns i bakgrunden." width="1200" height="900" loading="lazy"><span class="batteri" aria-label="Batteri noll procent">0 %</span></div>
+          <figcaption><span class="vem">Elias på taket</span>”Tog en bild med utsikt över Paris. Alla utom jag såg kvasten.”</figcaption>
+        </figure>
+      </div>
+      <p class="not">Bilderna är skapade med AI efter boken, av Nils Gerdes.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="serien">
+    <div class="inre">
+      <h2 class="rubrik">Serien</h2>
+      <div class="text">
+        <p>Alva, Elias och Sofia hittar en karta som för dem genom tiden. Där får de vänner som världen har glömt – och upptäcker att vissa namn har försvunnit av en anledning. Någon tjänar på att de aldrig blir ihågkomna. Barnen måste hitta hem. Men för varje resa blir det svårare att lämna.</p>
+        <p class="fraga">Hur lämnar man någon bakom sig när man kanske är den sista som någonsin kommer att minnas dem?</p>
+        <p class="liten">Varje bok utspelar sig i en ny stad och en ny tid. Serien är planerad till fem böcker.</p>
+      </div>
+      <ol class="böcker">
+        <li class="bok nu"><span class="nr">Del 1</span><span class="titel">Trettioen steg</span><span class="plats">Paris, 1241</span></li>
+        <li class="bok nasta"><span class="nr">Del 2 · Kommande</span><span class="titel">Den som blir kvar</span><span class="plats">Florens, 1505</span></li>
+        <li class="bok sen"><span class="nr">Del 3</span><span class="titel">Kommer</span></li>
+        <li class="bok sen"><span class="nr">Del 4</span><span class="titel">Kommer</span></li>
+        <li class="bok sen"><span class="nr">Del 5</span><span class="titel">Kommer</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="ljus">
+    <div class="inre spalter">
+      <div>
+        <h2 class="rubrik">Sant och påhittat</h2>
+        <div class="text">
+          <p>Berättelsen vilar på granskad historia om medeltidens Paris och bygget av Notre-Dame.</p>
+          <p>I slutet av boken finns ett efterord som reder ut vad som är sant och vad som är påhittat.</p>
+        </div>
+      </div>
+      <div id="forfattaren">
+        <h2 class="rubrik">Författaren</h2>
+        <div class="text">
+          <p>Nils Gerdes bor i Stockholm. Trettioen steg är hans debut och första delen i serien Tidskartan.</p>
+          <p>Idén, världen, personerna och berättelsen är hans. Prosan är till stor del skriven med AI under hans ledning, och de historiska uppgifterna är granskade mot källor. Nils har också skapat omslaget och bokens illustrationer med hjälp av AI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kop">
+    <div class="inre">
+      <h2 class="rubrik">Köp boken</h2>
+      <div class="köp">
+        <!-- Publits köpknapp för Trettioen steg (butik 6477). Visas först när boken är publicerad och sidan ligger på en riktig adress. -->
+        <div class="butik" id="publit-butik">
+          <strong>Köp direkt från förlaget</strong>
+          <p>Boken trycks när du beställer och skickas hem till dig med post.</p>
+          <div class="publit-knapp">
+            <script async loading="lazy" src="https://webshop.publit.com/publit-webshop-1.0.js">
+              {
+                "id": "6477",
+                "type": "button",
+                "isbn": "9789153526438",
+                "theme": {
+                  "backgroundColor": "#0c1322",
+                  "buyButton": { "backgroundColor": "#d0ab62", "textColor": "#0c1322" }
+                }
+              }
+            </script>
+          </div>
+        </div>
+        <div>
+          <ul class="butiker">
+            <li><span>Adlibris</span><span>Snart</span></li>
+            <li><span>Bokus</span><span>Snart</span></li>
+            <li><span>Din bokhandel</span><span>Beställ med ISBN</span></li>
+            <li><span>Biblioteket</span><span>Fråga efter titeln</span></li>
+          </ul>
+          <p class="isbn">ISBN 978-91-535-2643-8</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="inre">
+    <img src="img/gerdes-katt-stockholm.svg" alt="Gerdes &amp; Katt, Stockholm">
+    <p>Gerdes &amp; Katt ger ut barn- och ungdomsböcker. Tidskartan är förlagets första serie.</p>
+  </div>
+</footer>
+
+<script>
+  // Trettioen steg, det sista lyser som kartan.
+  const t=document.getElementById('trappa');
+  for(let i=1;i<=31;i++){const s=document.createElement('span');s.style.height=(4+i)+'px';t.appendChild(s);}
+</script>
+</body>
+</html>
