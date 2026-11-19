@@ -229,7 +229,6 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
 
 <section id="utdrag">
     <div class="inre">
-      <div class="trappa" aria-hidden="true" id="trappa"></div>
       <p class="etikett mitt">Läs ett utdrag</p>
       <h2 class="rubrik mitt">Kapitel 2 – Passagen</h2>
       <p class="intro">Det har regnat i tre dagar. I farmors bibliotek hittar Alva, Elias och deras kusin Sofia en öppning bakom en bokhylla. Innanför leder en stentrappa ner under huset. Farmors katt Leo går först. Barnen följer efter.</p>
@@ -467,11 +466,5 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
     <p>Gerdes &amp; Katt ger ut barn- och ungdomsböcker. Tidskartan är förlagets första serie.</p>
   </div>
 </footer>
-
-<script>
-  // Trettioen steg, det sista lyser som kartan.
-  const t=document.getElementById('trappa');
-  for(let i=1;i<=31;i++){const s=document.createElement('span');s.style.height=(4+i)+'px';t.appendChild(s);}
-</script>
 </body>
 </html>
