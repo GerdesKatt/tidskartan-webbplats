@@ -3,182 +3,175 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tidskartan</title>
-<meta name="description" content="Tidskartan är en äventyrsserie från tio år av Nils Gerdes. Del 1, Trettioen steg, utspelar sig i Paris år 1241.">
-<meta property="og:title" content="Tidskartan – Trettioen steg">
-<meta property="og:description" content="Under farmors hus ligger en karta som tar tre barn till Paris år 1241.">
-<meta property="og:image" content="img/trettioen-steg-omslag.jpg">
+<title>De oskrivna</title>
+<meta name="description" content="De oskrivna är en serie historiska tidsreseäventyr för 11–13 år av Nils Gerdes. Del 1, Trettioen steg, utspelar sig i Paris år 1241.">
+<meta property="og:title" content="De oskrivna · Trettioen steg">
+<meta property="og:description" content="Vem tror på Jean? Ett tidsreseäventyr för 11–13 år.">
+<meta property="og:image" content="img/scen-paris.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Layout: en natt i Paris. Mörkblått som omslaget, guld för det viktiga, kartans blå sken som enda ljuskälla. */
+/* Layout: designbokens "Den saknade raden". Papper och trycksvärta, en bokfärg per del i ortsremsan, kartblå för kartan. */
 :root{
-  --natt:#0c1322;
-  --sten:#151f35;
-  --pergament:#ebe5d6;
-  --dimma:#a3acbe;
-  --guld:#d0ab62;
-  --sken:#6cc3ee;
-  --display:"Cinzel","Trajan Pro",Georgia,serif;
-  --body:"Literata",Georgia,"Times New Roman",serif;
-  --ui:"Bricolage Grotesque",system-ui,sans-serif;
-  --mått:66ch;
-  color-scheme:dark;
+  --svarta:#14232A;
+  --papper:#F4EDDF;
+  --papper2:#EAE2D2;
+  --skiffer:#495B5C;
+  --linje:#D6CCB8;
+  --kartbla:#72D1DE;
+  --serif:"Noto Serif",Georgia,serif;
+  --sans:"Open Sans",system-ui,sans-serif;
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--natt);color:var(--pergament);font-family:var(--body);font-size:1.075rem;line-height:1.7;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--papper);color:var(--svarta);font-family:var(--sans);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
-a{color:var(--guld)}
-a:focus-visible,.knapp:focus-visible{outline:2px solid var(--sken);outline-offset:3px}
-h1,h2,h3{text-wrap:balance;font-weight:500;margin:0}
-.inre{width:min(1080px,100% - 40px);margin-inline:auto}
+a{color:var(--svarta)}
+a:focus-visible,.knapp:focus-visible,summary:focus-visible{outline:2px solid var(--kartbla);outline-offset:3px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0;line-height:1.1}
+.inre{width:min(1120px,100% - 40px);margin-inline:auto}
+.etikett,.ort-etikett,.mellan,.nr,.status,.vem,.nasta-etikett,.forf-namn{font-family:var(--sans);font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
 
 /* Sidhuvud */
-.topp{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--natt) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid #ffffff12}
-.topp .inre{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:14px}
-.topp img{height:46px;width:auto}
-.topp nav{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--ui);font-size:.9rem;font-weight:500}
-.topp nav a{color:var(--dimma);text-decoration:none}
-.topp nav a:hover{color:var(--pergament)}
+.topp{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--papper) 94%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--linje)}
+.topp .inre{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:16px}
+.topp .ordbild{height:26px;width:auto}
+.topp nav{display:flex;gap:24px;flex-wrap:wrap;font-size:.92rem}
+.topp nav a{text-decoration:none;color:var(--skiffer)}
+.topp nav a:hover{color:var(--svarta)}
 
-/* Öppning */
-.öppning{position:relative;overflow:hidden;padding-block:72px 88px}
-.öppning::before{content:"";position:absolute;inset:auto -20% -40% -20%;height:70%;background:radial-gradient(closest-side,#6cc3ee22,transparent 70%);pointer-events:none}
-.öppning .inre{position:relative;display:grid;grid-template-columns:minmax(220px,380px) 1fr;gap:64px;align-items:center}
-.omslag{border-radius:3px;box-shadow:0 30px 60px -20px #000c,0 0 0 1px #ffffff14;transform:rotate(-1.2deg)}
-.etikett{font-family:var(--ui);font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sken);margin:0 0 14px}
-.öppning h1{font-family:var(--display);font-size:clamp(2.6rem,6vw,4.4rem);line-height:1.05;letter-spacing:.02em;color:var(--guld)}
-.ingress{font-size:1.3rem;line-height:1.55;max-width:34ch;margin:22px 0 26px}
-.fakta{display:flex;flex-wrap:wrap;gap:8px 20px;padding:0;margin:0 0 32px;list-style:none;font-family:var(--ui);font-size:.92rem;color:var(--dimma)}
+/* Hjälte */
+.hjalte{padding-block:56px 0}
+.hjalte-grid{display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:center}
+.ort-etikett{margin:0 0 14px;color:var(--skiffer)}
+.hjalte h1{font-size:clamp(2.6rem,5.6vw,4.4rem)}
+.under{color:var(--skiffer);margin:18px 0 30px;font-size:1rem}
 .knappar{display:flex;flex-wrap:wrap;gap:12px}
-.knapp{display:inline-block;font-family:var(--ui);font-weight:700;font-size:1rem;text-decoration:none;padding:13px 24px;border-radius:999px;border:1px solid var(--guld)}
-.knapp.full{background:var(--guld);color:var(--natt)}
-.knapp.full:hover{background:#e0bd75}
-.knapp.tom{color:var(--guld)}
-.knapp.tom:hover{background:#d0ab6214}
-
-/* Trappan: trettioen steg */
-.trappa{display:flex;align-items:flex-end;gap:3px;height:34px;margin:0 auto;width:fit-content}
-.trappa span{width:6px;background:var(--guld);opacity:.55;border-radius:1px}
-.trappa span:last-child{background:var(--sken);opacity:1;box-shadow:0 0 10px var(--sken)}
-.trappa-text-oanvand{text-align:center;font-family:var(--ui);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimma);margin:10px 0 0}
+.knapp{display:inline-block;font-family:var(--sans);font-weight:600;font-size:.95rem;text-decoration:none;padding:13px 24px;border:1.5px solid var(--svarta)}
+.knapp.full{background:var(--svarta);color:var(--papper)}
+.knapp.full:hover{background:#22363f}
+.knapp.tom{color:var(--svarta)}
+.knapp.tom:hover{background:var(--papper2)}
+.hjalte-bild{margin:0;position:relative}
+.hjalte-bild img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.remsa{display:flex;justify-content:space-between;background:var(--kartbla);padding:9px 16px;font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;position:relative}
+.remsa::after{content:"";position:absolute;top:-10px;right:18%;width:44px;height:10px;background:var(--svarta)}
+.nasta-rad{display:flex;gap:28px;align-items:baseline;border-top:1px solid var(--linje);border-bottom:1px solid var(--linje);margin-top:48px;padding-block:18px}
+.nasta-etikett{color:var(--skiffer)}
+.nasta-titel{font-family:var(--serif);font-weight:700;font-size:1.15rem}
+.nasta-status{margin-left:auto;color:var(--skiffer);font-size:.92rem}
 
 /* Avsnitt */
 section{padding-block:80px}
-.ljus{background:var(--sten)}
-.rubrik{font-family:var(--display);font-size:clamp(1.7rem,3.4vw,2.3rem);color:var(--guld);margin-bottom:28px}
-.text{max-width:var(--mått)}
-.text p{margin:0 0 1.1em}
-.text p:last-child{margin-bottom:0}
-.citat{font-style:italic;font-size:1.25rem;border-left:2px solid var(--sken);padding-left:20px;color:var(--pergament)}
-
-
-/* Utdraget: en boksida */
+.ljus{background:var(--papper2)}
+.rubrik{font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:28px}
 .mitt{text-align:center}
-#utdrag .trappa{margin-bottom:28px}
-.sida{max-width:640px;margin:8px auto 0;padding:clamp(28px,5vw,56px);background:#111a2d;border:1px solid #ffffff12;border-radius:4px;box-shadow:0 20px 50px -30px #000}
-.prosa p{margin:0;text-indent:1.4em;font-size:1.12rem;line-height:1.75}
+.text{max-width:62ch}
+.text p{margin:0 0 1em}
+.krok{font-family:var(--serif);font-weight:700;font-size:1.45rem;line-height:1.35;margin:0 0 1.2em!important}
+.citat{font-family:var(--serif);font-style:italic;font-size:1.15rem;border-left:3px solid var(--kartbla);padding-left:18px}
+.fraga{font-family:var(--serif);font-size:1.3rem;line-height:1.45;margin:1.3em 0!important}
+.liten{color:var(--skiffer);font-size:.95rem}
+
+.boken-grid{display:grid;grid-template-columns:1fr 320px;gap:64px;align-items:start}
+.boken-bild{margin:0}
+.boken-bild img{width:100%;aspect-ratio:3/4;object-fit:cover}
+@media (max-width:860px){.boken-grid{grid-template-columns:1fr}.boken-bild{max-width:320px}}
+
+/* Utdrag */
+#utdrag .etikett{color:var(--skiffer);margin:0 0 10px}
+.intro{max-width:54ch;margin:0 auto 32px;text-align:center;font-family:var(--serif);font-style:italic;color:var(--skiffer)}
+.sida{max-width:640px;margin:0 auto;padding:clamp(28px,5vw,56px);background:#FBF7EE;border:1px solid var(--linje);box-shadow:0 18px 40px -28px #14232a55}
+.prosa p{margin:0;font-family:var(--serif);font-size:1.06rem;line-height:1.72;text-indent:3.5mm}
 .prosa p:first-child{text-indent:0}
-.prosa p:first-child::first-letter{font-family:var(--display);color:var(--guld);font-size:3.1em;float:left;line-height:.9;padding:6px 8px 0 0}
+.prosa p:first-child::first-letter{font-weight:700;font-size:3.1em;float:left;line-height:.9;padding:6px 8px 0 0}
 .fortsatt p:first-child::first-letter{all:unset}
-.fortsatt p:first-child{text-indent:1.4em}
-.prosa .brytning{text-indent:0;text-align:center;color:var(--sken);margin:1.2em 0}
+.fortsatt p:first-child{text-indent:3.5mm}
+.prosa .brytning{text-indent:0;text-align:center;color:var(--skiffer);margin:1.2em 0}
 .prosa .brytning + p{text-indent:0}
-.prosa .kartskrift{text-indent:0;text-align:center;font-family:var(--display);letter-spacing:.12em;color:var(--sken);text-shadow:0 0 12px #6cc3ee88;margin:1em 0}
-.mer summary{list-style:none;cursor:pointer;margin-top:28px;display:inline-block;font-family:var(--ui);font-weight:700;color:var(--guld);padding:11px 22px;border:1px solid var(--guld);border-radius:999px}
+.prosa .kartskrift{text-indent:0;text-align:center;letter-spacing:.14em;color:#2a8c99;margin:1em 0}
+.mer summary{list-style:none;cursor:pointer;margin-top:28px;display:inline-block;font-weight:600;padding:12px 22px;border:1.5px solid var(--svarta)}
 .mer summary::-webkit-details-marker{display:none}
 .mer[open] summary{display:none}
-.mer summary:focus-visible{outline:2px solid var(--sken);outline-offset:3px}
-.slut{margin-top:36px;padding-top:28px;border-top:1px solid #ffffff14;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
-.slut p{margin:0;font-style:italic;color:var(--dimma)}
+.slut{margin-top:36px;padding-top:24px;border-top:1px solid var(--linje);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.slut p{margin:0;font-family:var(--serif);font-style:italic;color:var(--skiffer)}
 
-.intro{max-width:52ch;margin:-8px auto 28px;text-align:center;font-style:italic;color:var(--dimma);font-size:1.08rem}
-
-
-/* Albumet */
-.underrubrik{margin:-18px 0 32px;font-style:italic;color:var(--dimma)}
-.album{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.foto{margin:0;display:flex;flex-direction:column;gap:12px}
-.ram{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -22px #000;border:1px solid #ffffff14}
-.ram img{aspect-ratio:4/3;object-fit:cover;width:100%}
-.batteri{position:absolute;top:10px;right:10px;font-family:var(--ui);font-weight:700;font-size:.75rem;color:#ff8a7a;background:#0c1322cc;padding:3px 9px 3px 8px;border-radius:999px;border:1px solid #ff8a7a66;font-variant-numeric:tabular-nums}
-.batteri.halv{color:#e9c46a;border-color:#e9c46a66}
-.foto .vem{display:block;font-family:var(--ui);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sken);margin-bottom:4px;font-style:normal}
-.foto .besk{display:block;font-style:normal;color:var(--dimma);font-size:.92rem;margin-bottom:4px}
-.foto figcaption{font-style:italic;font-size:.98rem;color:var(--pergament);line-height:1.5}
-.not{margin:28px 0 0;font-family:var(--ui);font-size:.85rem;color:var(--dimma)}
-@media (max-width:860px){.album{grid-template-columns:1fr}}
-
-
-.lucka summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:40px;flex-wrap:wrap;padding:28px;border:1px solid #ffffff14;border-radius:12px;background:#0c1322;transition:border-color .2s}
+/* Album */
+.underrubrik{margin:-18px 0 32px;font-family:var(--serif);font-style:italic;color:var(--skiffer)}
+.lucka summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:40px;flex-wrap:wrap;padding:28px;border:1px solid var(--linje);background:#FBF7EE}
 .lucka summary::-webkit-details-marker{display:none}
-.lucka summary:hover{border-color:var(--guld)}
-.lucka summary:focus-visible{outline:2px solid var(--sken);outline-offset:3px}
+.lucka summary:hover{border-color:var(--svarta)}
+.lucka[open] summary{display:none}
 .hog{position:relative;width:220px;height:150px;flex:none}
-.hog img{position:absolute;inset:0;width:200px;height:150px;object-fit:cover;border-radius:6px;border:5px solid var(--pergament);box-shadow:0 10px 24px -10px #000}
+.hog img{position:absolute;inset:0;width:200px;height:150px;object-fit:cover;border:6px solid #fff;box-shadow:0 10px 24px -12px #14232a88}
 .hog img:nth-child(1){transform:rotate(-8deg) translate(-6px,4px)}
 .hog img:nth-child(2){transform:rotate(5deg) translate(14px,-2px)}
 .hog img:nth-child(3){transform:rotate(-1deg) translate(4px,0)}
 .lucktext{display:flex;flex-direction:column;gap:6px}
-.lucktext strong{font-family:var(--ui);font-size:1.15rem;color:var(--guld)}
-.lucktext span{color:var(--dimma)}
-.lucka[open] summary{display:none}
-.lucka .album{margin-top:4px}
+.lucktext strong{font-family:var(--serif);font-size:1.2rem}
+.lucktext span{color:var(--skiffer)}
+.album{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.foto{margin:0;display:flex;flex-direction:column;gap:12px}
+.ram{position:relative;overflow:hidden;border:1px solid var(--linje)}
+.ram img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.batteri{position:absolute;top:10px;right:10px;font-weight:600;font-size:.72rem;color:#fff;background:#14232acc;padding:3px 9px;border-radius:999px;font-variant-numeric:tabular-nums}
+.batteri::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#DF7C85;margin-right:6px}
+.batteri.halv::before{background:#E2BA61}
+.foto figcaption{font-family:var(--serif);font-style:italic;font-size:.98rem;line-height:1.5}
+.foto .vem{display:block;font-style:normal;color:var(--skiffer);margin-bottom:4px}
+.foto .besk{display:block;font-family:var(--sans);font-style:normal;color:var(--skiffer);font-size:.9rem;margin-bottom:4px}
+.not{margin:28px 0 0;font-size:.85rem;color:var(--skiffer)}
 
-.krok{font-family:var(--display);color:var(--guld);font-size:1.4rem;line-height:1.45;margin:0 0 1.4em!important}
-.mellan{font-family:var(--ui);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sken);margin:1.6em 0 .6em!important}
-.lista{margin:0 0 1.2em;padding-left:1.1em}
-.lista li{margin-bottom:.5em}
-.lista li::marker{color:var(--guld)}
 /* Serien */
-.fraga{font-family:var(--display);color:var(--guld);font-size:1.35rem;line-height:1.45;text-wrap:balance;margin:1.4em 0!important}
-.liten{color:var(--dimma);font-size:.98rem}
-.böcker{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;list-style:none;padding:0;margin:40px 0 0}
-.bok{display:flex;flex-direction:column;gap:6px;padding:20px 18px;border-radius:6px;border:1px solid #ffffff14;min-height:150px}
-.bok .nr{font-family:var(--ui);font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dimma)}
-.bok .titel{font-family:var(--display);font-size:1.15rem;line-height:1.25}
-.bok .plats{font-family:var(--ui);font-size:.9rem;color:var(--dimma);margin-top:auto}
-.bok.nu{border-color:var(--guld);background:#d0ab620d}
-.bok.nu .titel{color:var(--guld)}
-.bok.nasta{border-color:#6cc3ee55}
-.bok.nasta .titel{color:var(--pergament)}
-.bok.sen .titel{color:var(--dimma)}
+.delar{list-style:none;padding:0;margin:36px 0 0;border-top:1px solid var(--linje)}
+.del{display:grid;grid-template-columns:90px 1fr 160px 120px;gap:20px;align-items:center;padding:16px 0 16px 18px;border-bottom:1px solid var(--linje);position:relative}
+.del::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:6px;background:var(--bok)}
+.del .titel{font-family:var(--serif);font-weight:700;font-size:1.15rem}
+.del .ort,.del .status{color:var(--skiffer);font-size:.92rem}
+.del .status{text-align:right}
+.del.tom .titel{color:var(--skiffer);font-weight:400}
 
 /* Två spalter */
+.spalter{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.mellan{color:var(--skiffer);margin:1.6em 0 .6em!important}
+.lista{margin:0 0 1.2em;padding-left:1.1em}
+.lista li{margin-bottom:.5em}
+.lista li::marker{color:var(--kartbla)}
 .forf-topp{display:flex;align-items:center;gap:22px;margin-bottom:24px}
 .forf-topp .rubrik{margin-bottom:4px}
-.forf-namn{margin:0;font-family:var(--ui);font-size:.9rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dimma)}
-.portratt{width:104px;height:104px;flex:none;border-radius:50%;object-fit:cover;border:2px solid var(--guld);box-shadow:0 10px 24px -12px #000}
-.spalter{display:grid;grid-template-columns:1fr 1fr;gap:56px}
-.spalter h3{font-family:var(--ui);font-weight:700;font-size:1.05rem;margin-bottom:10px}
+.forf-namn{margin:0;color:var(--skiffer)}
+.portratt{width:104px;height:104px;flex:none;border-radius:50%;object-fit:cover}
 
 /* Köp */
 .köp{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
-.butik{border:1px dashed var(--sken);border-radius:8px;padding:28px;min-height:180px;display:flex;flex-direction:column;justify-content:center;gap:10px;background:#6cc3ee0a}
-.butik strong{font-family:var(--ui)}
-.butik p{margin:0;color:var(--dimma);font-size:.95rem}
+.butik{border:1.5px solid var(--svarta);padding:28px;min-height:170px;display:flex;flex-direction:column;justify-content:center;gap:10px;background:#FBF7EE}
+.butik strong{font-family:var(--serif);font-size:1.2rem}
+.butik p{margin:0;color:var(--skiffer);font-size:.95rem}
 .butiker{list-style:none;padding:0;margin:0;display:grid;gap:12px}
-.butiker li{display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid #ffffff14;font-family:var(--ui)}
-.butiker li span:last-child{color:var(--dimma)}
-.isbn{font-family:var(--ui);font-variant-numeric:tabular-nums;color:var(--dimma);font-size:.92rem;margin-top:20px}
+.butiker li{display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--linje)}
+.butiker li span:last-child{color:var(--skiffer)}
+.isbn{font-variant-numeric:tabular-nums;color:var(--skiffer);font-size:.9rem;margin-top:20px}
 
 /* Fot */
-footer{padding-block:56px;border-top:1px solid #ffffff12}
+footer{background:var(--svarta);color:var(--papper);padding-block:56px}
 footer .inre{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
-footer img{height:72px;width:auto}
-footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-width:44ch}
+footer .ordbild{height:30px;width:auto;margin-bottom:22px}
+footer .forlag{height:44px;width:auto}
+footer p{margin:0;font-size:.88rem;color:#b9c3c4;max-width:44ch}
 
 @media (max-width:860px){
-  .öppning .inre{grid-template-columns:1fr;gap:40px}
-  .omslag{max-width:280px;margin-inline:auto}
-  .böcker{grid-template-columns:repeat(2,1fr)}
-  .bok.nu{grid-column:1/-1}
-  .spalter,.köp{grid-template-columns:1fr;gap:36px}
+  .hjalte-grid{grid-template-columns:1fr;gap:32px}
+  .hjalte-bild{order:-1}
+  .album{grid-template-columns:1fr}
+  .spalter,.köp{grid-template-columns:1fr;gap:40px}
+  .del{grid-template-columns:70px 1fr;row-gap:2px}
+  .del .ort,.del .status{grid-column:2;text-align:left}
   .topp nav{display:none}
   section{padding-block:60px}
+  .nasta-rad{flex-wrap:wrap;gap:8px 20px}
 }
 </style>
 </head>
@@ -186,43 +179,45 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
 
 <header class="topp">
   <div class="inre">
-    <a href="#"><img src="img/gerdes-katt.svg" alt="Gerdes &amp; Katt"></a>
+    <a href="#"><img class="ordbild" src="img/wordmark-ink.png" alt="De oskrivna" width="1200" height="160"></a>
     <nav aria-label="Sidans delar">
-      <a href="#boken">Boken</a>
+      <a href="#serien">Böckerna</a>
       <a href="#utdrag">Läs ett utdrag</a>
       <a href="#album">Album</a>
-      <a href="#serien">Serien</a>
-      <a href="#forfattaren">Författaren</a>
+      <a href="#forfattaren">Om författaren</a>
       <a href="#kop">Köp</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <div class="öppning">
-    <div class="inre">
-      <img class="omslag" src="img/trettioen-steg-omslag.jpg" alt="Omslaget till Trettioen steg: tre barn och en katt i ett dimmigt Paris framför Notre-Dame, med en lysande karta på marken." width="1000" height="1500">
-      <div>
-        <p class="etikett">Tidskartan · Del 1</p>
-        <h1>Trettioen steg</h1>
-        <p class="ingress">Under farmors hus ligger en karta som tar tre barn till Paris år 1241. Den lyser bara en kort stund, och varje gång måste de välja: gå hem eller stanna lite till.</p>
-        <ul class="fakta">
-          <li>Från 10 år</li>
-          <li>236 sidor</li>
-          <li>Häftad</li>
-          <li>Nils Gerdes</li>
-        </ul>
+  <section class="hjalte">
+    <div class="inre hjalte-grid">
+      <div class="hjalte-text">
+        <p class="ort-etikett">Paris 1241</p>
+        <h1>Vem tror<br>på Jean?</h1>
+        <p class="under">Trettioen steg · Ett tidsreseäventyr för 11–13 år.</p>
         <div class="knappar">
-          <a class="knapp full" href="#kop">Köp boken</a>
-          <a class="knapp tom" href="#utdrag">Läs ett utdrag</a>
+          <a class="knapp full" href="#utdrag">Läs första kapitlet</a>
+          <a class="knapp tom" href="#kop">Köp boken</a>
         </div>
       </div>
+      <figure class="hjalte-bild">
+        <img src="img/scen-paris.jpg" alt="Alva, Elias och Sofia vid bygget av Notre-Dame år 1241. Sofia håller Alva i ärmen och katten Leo sitter på en sten bredvid." width="1400" height="933">
+        <span class="remsa"><span>Paris / 1241</span><span>Del 1</span></span>
+      </figure>
     </div>
-  </div>
+    <div class="inre nasta-rad">
+      <span class="nasta-etikett">Nästa bok</span>
+      <span class="nasta-titel">Den som blir kvar</span>
+      <span class="nasta-status">Kommande</span>
+    </div>
+  </section>
 
   <section id="boken" class="ljus">
     <div class="inre">
       <h2 class="rubrik">Om boken</h2>
+      <div class="boken-grid">
       <div class="text">
         <p class="krok">Kartan lyser bara en kort stund.<br>Sedan slocknar vägen hem.</p>
         <p>Under farmors hus finns en trappa som ingen har berättat om. Längst ner ligger en gammal karta av skinn. Den tar Alva, Elias och Sofia till Paris år 1241. Där väntar dimma, sten och ett katedralbygge. En mur har just rasat.</p>
@@ -231,13 +226,15 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
         <p>Men varje gång kartan öppnar sig måste de välja. Gå hem. Eller stanna lite till.</p>
         <p class="citat">Någon har valt fel förut.<br>Och i dimman vid kajen står en man som vet vad de bär.</p>
       </div>
+      <figure class="boken-bild"><img src="img/leo-kartan.jpg" alt="Katten Leo kliver ut på kartan. Där tassen landar börjar en kartblå linje lysa." width="647" height="1150" loading="lazy"></figure>
+      </div>
     </div>
   </section>
 
 <section id="utdrag">
     <div class="inre">
       <p class="etikett mitt">Läs ett utdrag</p>
-      <h2 class="rubrik mitt">Kapitel 2 – Passagen</h2>
+      <h2 class="rubrik mitt">Kapitel 2 · Passagen</h2>
       <p class="intro">Det har regnat i tre dagar. I farmors bibliotek hittar Alva, Elias och deras kusin Sofia en öppning bakom en bokhylla. Innanför leder en stentrappa ner under huset. Farmors katt Leo går först. Barnen följer efter.</p>
       <article class="sida">
         <div class="prosa">
@@ -395,12 +392,12 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
         <p class="fraga">Hur lämnar man någon bakom sig när man kanske är den sista som någonsin kommer att minnas dem?</p>
         <p class="liten">Varje bok utspelar sig i en ny stad och en ny tid. Serien är planerad till fem böcker.</p>
       </div>
-      <ol class="böcker">
-        <li class="bok nu"><span class="nr">Del 1</span><span class="titel">Trettioen steg</span><span class="plats">Paris, 1241</span></li>
-        <li class="bok nasta"><span class="nr">Del 2 · Kommande</span><span class="titel">Den som blir kvar</span><span class="plats">Florens, 1505</span></li>
-        <li class="bok sen"><span class="nr">Del 3</span><span class="titel">Kommer</span></li>
-        <li class="bok sen"><span class="nr">Del 4</span><span class="titel">Kommer</span></li>
-        <li class="bok sen"><span class="nr">Del 5</span><span class="titel">Kommer</span></li>
+      <ol class="delar">
+        <li class="del" style="--bok:#72D1DE"><span class="nr">Del 1</span><span class="titel">Trettioen steg</span><span class="ort">Paris 1241</span><span class="status">Snart</span></li>
+        <li class="del" style="--bok:#EF9B79"><span class="nr">Del 2</span><span class="titel">Den som blir kvar</span><span class="ort">Lissabon</span><span class="status">Kommande</span></li>
+        <li class="del tom" style="--bok:#E2BA61"><span class="nr">Del 3</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
+        <li class="del tom" style="--bok:#DF7C85"><span class="nr">Del 4</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
+        <li class="del tom" style="--bok:#9BBF9F"><span class="nr">Del 5</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
       </ol>
     </div>
   </section>
@@ -421,7 +418,7 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
           <p class="mellan">Det här är påhittat</p>
           <ul class="lista">
             <li>Jean, Henri, Marthe och de andra människorna barnen lär känna, och raset som sätter igång allt.</li>
-            <li>Jeans lilja och reglerna kring stenhuggarens eget märke.</li>
+            <li>Jeans eget märke och reglerna kring hur stenhuggare märkte sina stenar.</li>
             <li>Kartan, trappan under farmors hus och Leos röst.</li>
           </ul>
           <p>Efterordet i slutet av boken reder ut resten, för den som vill veta mer.</p>
@@ -436,8 +433,8 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
           </div>
         </div>
         <div class="text">
-          <p>Nils Gerdes bor i Stockholm och arbetar med marknadsföring på ett stort industriföretag. Som barn läste han Momo och böckerna om Narnia, och sedan dess har tanken på tiden och på dörrar till andra världar aldrig släppt honom.</p>
-          <p>Han saknade böcker för mellanåldern som var spännande på riktigt och samtidigt lärde något, om historien och om människan. För omvärlden förändras, men vi tänker och känner som människor alltid har gjort. Berättelsen om Tidskartan bar han på länge. Med den nya tekniken kom han till slut till skott.</p>
+          <p>Nils Gerdes bor i Stockholm och arbetar med marknadsföring på ett stort industriföretag. Som barn läste han Narnia och Momo, och sedan dess har tiden aldrig släppt honom.</p>
+          <p>Han saknade böcker för mellanåldern som var spännande på riktigt och samtidigt lärde något, om historien och om människan. För omvärlden förändras, men vi tänker och känner som människor alltid har gjort. Berättelsen om De oskrivna bar han på länge. Med den nya tekniken kom han till slut till skott.</p>
           <p>Trettioen steg är hans debut och första delen i serien, som är planerad till fem böcker. Idén, världen, personerna och berättelsen är hans. Prosan är till stor del skriven med AI under hans ledning, och de historiska uppgifterna är granskade mot källor. Omslaget och illustrationerna har han också skapat med hjälp av AI.</p>
         </div>
       </div>
@@ -482,8 +479,11 @@ footer p{margin:0;font-family:var(--ui);font-size:.88rem;color:var(--dimma);max-
 
 <footer>
   <div class="inre">
-    <img src="img/gerdes-katt-stockholm.svg" alt="Gerdes &amp; Katt, Stockholm">
-    <p>Gerdes &amp; Katt ger ut barn- och ungdomsböcker. Tidskartan är förlagets första serie.</p>
+    <div>
+      <img class="ordbild" src="img/wordmark-paper.png" alt="De oskrivna" width="1200" height="160">
+      <p>De oskrivna är en serie historiska tidsreseäventyr för 11–13 år. Del 1, Trettioen steg, utspelar sig i Paris år 1241.</p>
+    </div>
+    <img class="forlag" src="img/gk-paper.png" alt="Gerdes &amp; Katt" width="600" height="196">
   </div>
 </footer>
 </body>
