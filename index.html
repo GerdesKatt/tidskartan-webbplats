@@ -6,22 +6,25 @@
 <title>De oskrivna</title>
 <meta name="description" content="De oskrivna är en serie historiska tidsreseäventyr för 11–13 år av Nils Gerdes. Del 1, Trettioen steg, utspelar sig i Paris år 1241.">
 <meta property="og:title" content="De oskrivna · Trettioen steg">
-<meta property="og:description" content="Vem tror på Jean? Ett tidsreseäventyr för 11–13 år.">
-<meta property="og:image" content="img/scen-paris.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<meta property="og:description" content="Ett ras vid Notre-Dame. En pojke får skulden.">
+<meta property="og:image" content="https://deoskrivna.se/img/paris-panorama.jpg">
+<link rel="icon" href="img/symbol.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/URWBookman-Demi.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-/* Layout: designbokens "Den saknade raden". Papper och trycksvärta, en bokfärg per del i ortsremsan, kartblå för kartan. */
+/* Layout: designspåret Blindfält. Bokpapper och trycksvärta, ett halmgult fält som skär bort en bit av bilden, en kulör per del. */
+@font-face{font-family:"Bookman Demi";src:url(fonts/URWBookman-Demi.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Gothic";src:url(fonts/URWGothic-Book.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Gothic";src:url(fonts/URWGothic-Demi.woff2) format("woff2");font-weight:600;font-display:swap}
 :root{
-  --svarta:#14232A;
-  --papper:#F4EDDF;
-  --papper2:#EAE2D2;
-  --skiffer:#495B5C;
-  --linje:#D6CCB8;
-  --kartbla:#72D1DE;
-  --serif:"Noto Serif",Georgia,serif;
-  --sans:"Open Sans",system-ui,sans-serif;
+  --svarta:#171E20;
+  --papper:#F6F2E8;
+  --papper2:#EEE8DA;
+  --sten:#7C6652;
+  --gra:#5d6466;
+  --linje:#DDD5C4;
+  --gul:#F2DB72;
+  --titel:"Bookman Demi","Bookman Old Style",Georgia,serif;
+  --sans:"Gothic","Century Gothic","Avenir Next",system-ui,sans-serif;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -30,148 +33,147 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--papper);color:var(--svarta);font-family:var(--sans);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
 a{color:var(--svarta)}
-a:focus-visible,.knapp:focus-visible,summary:focus-visible{outline:2px solid var(--kartbla);outline-offset:3px}
-h1,h2,h3{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0;line-height:1.1}
-.inre{width:min(1120px,100% - 40px);margin-inline:auto}
-.etikett,.ort-etikett,.mellan,.nr,.status,.vem,.nasta-etikett,.forf-namn{font-family:var(--sans);font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+a:focus-visible,.knapp:focus-visible,summary:focus-visible{outline:3px solid var(--sten);outline-offset:3px}
+h1,h2,h3{font-family:var(--titel);font-weight:700;text-wrap:balance;margin:0;line-height:1.05;letter-spacing:-.01em}
+.inre{width:min(1160px,100% - 40px);margin-inline:auto}
+.etikett,.meta,.mellan,.nr,.vem,.forf-namn,.ort-etikett{font-family:var(--sans);font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
 
 /* Sidhuvud */
-.topp{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--papper) 94%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--linje)}
-.topp .inre{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:16px}
-.topp .ordbild{height:26px;width:auto}
-.topp nav{display:flex;gap:24px;flex-wrap:wrap;font-size:.92rem}
-.topp nav a{text-decoration:none;color:var(--skiffer)}
-.topp nav a:hover{color:var(--svarta)}
+.topp{position:sticky;top:0;z-index:5;background:var(--papper);border-bottom:1px solid var(--linje)}
+.topp .inre{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:18px}
+.topp .ordbild{height:28px;width:auto}
+.topp nav{display:flex;gap:28px;flex-wrap:wrap;font-weight:600;font-size:.95rem}
+.topp nav a{text-decoration:none}
+.topp nav a:hover{text-decoration:underline;text-underline-offset:4px}
 
-/* Hjälte */
-.hjalte{padding-block:56px 0}
-.hjalte-grid{display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:center}
-.ort-etikett{margin:0 0 14px;color:var(--skiffer)}
-.hjalte h1{font-size:clamp(2.6rem,5.6vw,4.4rem)}
-.under{color:var(--skiffer);margin:18px 0 30px;font-size:1rem}
+/* Hjälte med blindfält */
+.hjalte{padding:0}
+.hjalte-bild{position:relative;min-height:560px;display:flex;align-items:center}
+.hjalte-bild>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 40%}
+.blindfalt{position:relative;background:var(--gul);padding:40px clamp(20px,4vw,56px) 48px;max-width:min(560px,92%);margin-left:0}
+.blindfalt::after{content:"";position:absolute;right:-96px;bottom:0;width:96px;height:44%;background:var(--gul)}
+.blindfalt .meta{margin:0 0 18px}
+.blindfalt .meta span{margin:0 .9em}
+.blindfalt h1{font-size:clamp(3.2rem,7.4vw,6rem)}
+.tagg{font-size:1.15rem;margin:20px 0 28px;line-height:1.4}
 .knappar{display:flex;flex-wrap:wrap;gap:12px}
-.knapp{display:inline-block;font-family:var(--sans);font-weight:600;font-size:.95rem;text-decoration:none;padding:13px 24px;border:1.5px solid var(--svarta)}
-.knapp.full{background:var(--svarta);color:var(--papper)}
-.knapp.full:hover{background:#22363f}
+.knapp{display:inline-block;font-family:var(--sans);font-weight:600;font-size:1rem;text-decoration:none;padding:14px 26px;border:2px solid var(--svarta)}
+.knapp.full{background:var(--svarta);color:var(--gul)}
+.knapp.full:hover{background:#2a3437}
 .knapp.tom{color:var(--svarta)}
-.knapp.tom:hover{background:var(--papper2)}
-.hjalte-bild{margin:0;position:relative}
-.hjalte-bild img{width:100%;aspect-ratio:3/2;object-fit:cover}
-.remsa{display:flex;justify-content:space-between;background:var(--kartbla);padding:9px 16px;font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;position:relative}
-.remsa::after{content:"";position:absolute;top:-10px;right:18%;width:44px;height:10px;background:var(--svarta)}
-.nasta-rad{display:flex;gap:28px;align-items:baseline;border-top:1px solid var(--linje);border-bottom:1px solid var(--linje);margin-top:48px;padding-block:18px}
-.nasta-etikett{color:var(--skiffer)}
-.nasta-titel{font-family:var(--serif);font-weight:700;font-size:1.15rem}
-.nasta-status{margin-left:auto;color:var(--skiffer);font-size:.92rem}
+.knapp.tom:hover{background:#fff6}
+.nasta-rad{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-block:28px 32px;border-bottom:1px solid var(--linje)}
+.nasta-etikett{display:block;color:var(--gra);font-size:.95rem;margin-bottom:2px}
+.nasta-titel{font-family:var(--titel);font-weight:700;font-size:clamp(1.6rem,3vw,2.3rem)}
+.nasta-status{color:var(--gra);font-weight:600}
 
 /* Avsnitt */
-section{padding-block:80px}
+section{padding-block:84px}
 .ljus{background:var(--papper2)}
-.rubrik{font-size:clamp(1.8rem,3.4vw,2.5rem);margin-bottom:28px}
+.rubrik{font-size:clamp(2rem,3.6vw,2.8rem);margin-bottom:28px}
 .mitt{text-align:center}
 .text{max-width:62ch}
 .text p{margin:0 0 1em}
-.krok{font-family:var(--serif);font-weight:700;font-size:1.45rem;line-height:1.35;margin:0 0 1.2em!important}
-.citat{font-family:var(--serif);font-style:italic;font-size:1.15rem;border-left:3px solid var(--kartbla);padding-left:18px}
-.fraga{font-family:var(--serif);font-size:1.3rem;line-height:1.45;margin:1.3em 0!important}
-.liten{color:var(--skiffer);font-size:.95rem}
-
-.boken-grid{display:grid;grid-template-columns:1fr 320px;gap:64px;align-items:start}
-.boken-bild{margin:0}
-.boken-bild img{width:100%;aspect-ratio:3/4;object-fit:cover}
-@media (max-width:860px){.boken-grid{grid-template-columns:1fr}.boken-bild{max-width:320px}}
+.krok{font-family:var(--titel);font-weight:700;font-size:1.5rem;line-height:1.3;margin:0 0 1.2em!important}
+.citat{font-weight:600;border-left:6px solid var(--gul);padding-left:18px}
+.fraga{font-family:var(--titel);font-size:1.35rem;line-height:1.4;margin:1.3em 0!important}
+.liten{color:var(--gra);font-size:.95rem}
+.boken-grid{display:grid;grid-template-columns:1fr 340px;gap:64px;align-items:start}
+.boken-bild{margin:0;position:relative}
+.boken-bild img{width:100%}
+.boken-bild figcaption{font-size:.85rem;color:var(--gra);margin-top:10px}
 
 /* Utdrag */
-#utdrag .etikett{color:var(--skiffer);margin:0 0 10px}
-.intro{max-width:54ch;margin:0 auto 32px;text-align:center;font-family:var(--serif);font-style:italic;color:var(--skiffer)}
-.sida{max-width:640px;margin:0 auto;padding:clamp(28px,5vw,56px);background:#FBF7EE;border:1px solid var(--linje);box-shadow:0 18px 40px -28px #14232a55}
-.prosa p{margin:0;font-family:var(--serif);font-size:1.06rem;line-height:1.72;text-indent:3.5mm}
+#utdrag .etikett{color:var(--gra);margin:0 0 10px}
+.intro{max-width:54ch;margin:0 auto 32px;text-align:center;color:var(--gra)}
+.sida{max-width:640px;margin:0 auto;padding:clamp(28px,5vw,56px);background:#FFFDF7;border:1px solid var(--linje);box-shadow:0 18px 40px -28px #171e2055}
+.prosa p{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:1.06rem;line-height:1.72;text-indent:3.5mm}
 .prosa p:first-child{text-indent:0}
-.prosa p:first-child::first-letter{font-weight:700;font-size:3.1em;float:left;line-height:.9;padding:6px 8px 0 0}
+.prosa p:first-child::first-letter{font-family:var(--titel);font-weight:700;font-size:3.1em;float:left;line-height:.9;padding:6px 8px 0 0}
 .fortsatt p:first-child::first-letter{all:unset}
 .fortsatt p:first-child{text-indent:3.5mm}
-.prosa .brytning{text-indent:0;text-align:center;color:var(--skiffer);margin:1.2em 0}
+.prosa .brytning{text-indent:0;text-align:center;color:var(--sten);margin:1.2em 0}
 .prosa .brytning + p{text-indent:0}
-.prosa .kartskrift{text-indent:0;text-align:center;letter-spacing:.14em;color:#2a8c99;margin:1em 0}
-.mer summary{list-style:none;cursor:pointer;margin-top:28px;display:inline-block;font-weight:600;padding:12px 22px;border:1.5px solid var(--svarta)}
+.prosa .kartskrift{text-indent:0;text-align:center;letter-spacing:.14em;color:#2a7f8c;margin:1em 0}
+.mer summary{list-style:none;cursor:pointer;margin-top:28px;display:inline-block;font-weight:600;padding:12px 22px;background:var(--svarta);color:var(--gul)}
 .mer summary::-webkit-details-marker{display:none}
 .mer[open] summary{display:none}
 .slut{margin-top:36px;padding-top:24px;border-top:1px solid var(--linje);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
-.slut p{margin:0;font-family:var(--serif);font-style:italic;color:var(--skiffer)}
+.slut p{margin:0;color:var(--gra)}
 
 /* Album */
-.underrubrik{margin:-18px 0 32px;font-family:var(--serif);font-style:italic;color:var(--skiffer)}
-.lucka summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:40px;flex-wrap:wrap;padding:28px;border:1px solid var(--linje);background:#FBF7EE}
+.underrubrik{margin:-18px 0 32px;color:var(--gra)}
+.lucka summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:40px;flex-wrap:wrap;padding:28px;background:var(--gul)}
 .lucka summary::-webkit-details-marker{display:none}
-.lucka summary:hover{border-color:var(--svarta)}
+.lucka summary:hover{filter:brightness(1.03)}
 .lucka[open] summary{display:none}
 .hog{position:relative;width:220px;height:150px;flex:none}
-.hog img{position:absolute;inset:0;width:200px;height:150px;object-fit:cover;border:6px solid #fff;box-shadow:0 10px 24px -12px #14232a88}
+.hog img{position:absolute;inset:0;width:200px;height:150px;object-fit:cover;border:6px solid #fff;box-shadow:0 10px 24px -12px #171e2088}
 .hog img:nth-child(1){transform:rotate(-8deg) translate(-6px,4px)}
 .hog img:nth-child(2){transform:rotate(5deg) translate(14px,-2px)}
 .hog img:nth-child(3){transform:rotate(-1deg) translate(4px,0)}
 .lucktext{display:flex;flex-direction:column;gap:6px}
-.lucktext strong{font-family:var(--serif);font-size:1.2rem}
-.lucktext span{color:var(--skiffer)}
+.lucktext strong{font-family:var(--titel);font-size:1.4rem}
 .album{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .foto{margin:0;display:flex;flex-direction:column;gap:12px}
-.ram{position:relative;overflow:hidden;border:1px solid var(--linje)}
+.ram{position:relative;overflow:hidden}
 .ram img{aspect-ratio:4/3;object-fit:cover;width:100%}
-.batteri{position:absolute;top:10px;right:10px;font-weight:600;font-size:.72rem;color:#fff;background:#14232acc;padding:3px 9px;border-radius:999px;font-variant-numeric:tabular-nums}
-.batteri::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#DF7C85;margin-right:6px}
-.batteri.halv::before{background:#E2BA61}
-.foto figcaption{font-family:var(--serif);font-style:italic;font-size:.98rem;line-height:1.5}
-.foto .vem{display:block;font-style:normal;color:var(--skiffer);margin-bottom:4px}
-.foto .besk{display:block;font-family:var(--sans);font-style:normal;color:var(--skiffer);font-size:.9rem;margin-bottom:4px}
-.not{margin:28px 0 0;font-size:.85rem;color:var(--skiffer)}
+.batteri{position:absolute;top:10px;right:10px;font-weight:600;font-size:.72rem;color:#fff;background:#171e20cc;padding:3px 9px;border-radius:999px;font-variant-numeric:tabular-nums}
+.batteri::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#EBAAA7;margin-right:6px}
+.batteri.halv::before{background:var(--gul)}
+.foto figcaption{font-size:.98rem;line-height:1.5}
+.foto .vem{display:block;color:var(--sten);margin-bottom:4px}
+.foto .besk{display:block;color:var(--gra);font-size:.9rem;margin-bottom:4px}
+.not{margin:28px 0 0;font-size:.85rem;color:var(--gra)}
 
 /* Serien */
 .delar{list-style:none;padding:0;margin:36px 0 0;border-top:1px solid var(--linje)}
-.del{display:grid;grid-template-columns:90px 1fr 160px 120px;gap:20px;align-items:center;padding:16px 0 16px 18px;border-bottom:1px solid var(--linje);position:relative}
-.del::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:6px;background:var(--bok)}
-.del .titel{font-family:var(--serif);font-weight:700;font-size:1.15rem}
-.del .ort,.del .status{color:var(--skiffer);font-size:.92rem}
-.del .status{text-align:right}
-.del.tom .titel{color:var(--skiffer);font-weight:400}
+.del{display:grid;grid-template-columns:90px 1fr 160px 120px;gap:20px;align-items:center;padding:18px 0 18px 26px;border-bottom:1px solid var(--linje);position:relative}
+.del::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:12px;background:var(--bok)}
+.del .titel{font-family:var(--titel);font-weight:700;font-size:1.25rem}
+.del .ort,.del .status{color:var(--gra);font-size:.95rem}
+.del .status{text-align:right;font-weight:600}
+.del.tom .titel{color:var(--gra);font-family:var(--sans);font-weight:400}
 
 /* Två spalter */
 .spalter{display:grid;grid-template-columns:1fr 1fr;gap:64px}
-.mellan{color:var(--skiffer);margin:1.6em 0 .6em!important}
+.mellan{color:var(--sten);margin:1.6em 0 .6em!important}
 .lista{margin:0 0 1.2em;padding-left:1.1em}
 .lista li{margin-bottom:.5em}
-.lista li::marker{color:var(--kartbla)}
+.lista li::marker{color:var(--sten)}
 .forf-topp{display:flex;align-items:center;gap:22px;margin-bottom:24px}
 .forf-topp .rubrik{margin-bottom:4px}
-.forf-namn{margin:0;color:var(--skiffer)}
+.forf-namn{margin:0;color:var(--gra)}
 .portratt{width:104px;height:104px;flex:none;border-radius:50%;object-fit:cover}
 
 /* Köp */
 .köp{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
-.butik{border:1.5px solid var(--svarta);padding:28px;min-height:170px;display:flex;flex-direction:column;justify-content:center;gap:10px;background:#FBF7EE}
-.butik strong{font-family:var(--serif);font-size:1.2rem}
-.butik p{margin:0;color:var(--skiffer);font-size:.95rem}
+.butik{border:2px solid var(--svarta);padding:28px;min-height:170px;display:flex;flex-direction:column;justify-content:center;gap:10px;background:#FFFDF7}
+.butik strong{font-family:var(--titel);font-size:1.3rem}
+.butik p{margin:0;color:var(--gra);font-size:.95rem}
 .butiker{list-style:none;padding:0;margin:0;display:grid;gap:12px}
 .butiker li{display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--linje)}
-.butiker li span:last-child{color:var(--skiffer)}
-.isbn{font-variant-numeric:tabular-nums;color:var(--skiffer);font-size:.9rem;margin-top:20px}
+.butiker li span:last-child{color:var(--gra)}
+.isbn{font-variant-numeric:tabular-nums;color:var(--gra);font-size:.9rem;margin-top:20px}
 
 /* Fot */
 footer{background:var(--svarta);color:var(--papper);padding-block:56px}
 footer .inre{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
 footer .ordbild{height:30px;width:auto;margin-bottom:22px}
 footer .forlag{height:84px;width:auto}
-footer p{margin:0;font-size:.88rem;color:#b9c3c4;max-width:44ch}
+footer p{margin:0;font-size:.9rem;color:#c4c8c6;max-width:44ch}
 
 @media (max-width:860px){
-  .hjalte-grid{grid-template-columns:1fr;gap:32px}
-  .hjalte-bild{order:-1}
+  .topp nav{display:none}
+  .hjalte-bild{display:block;min-height:0}
+  .hjalte-bild>img{position:static;height:auto;aspect-ratio:4/3;object-position:62% 40%}
+  .blindfalt{margin-top:-90px;max-width:none;margin-right:28%;padding:24px 20px 28px}
+  .blindfalt::after{display:none}
   .album{grid-template-columns:1fr}
-  .spalter,.köp{grid-template-columns:1fr;gap:40px}
+  .spalter,.köp,.boken-grid{grid-template-columns:1fr;gap:40px}
   .del{grid-template-columns:70px 1fr;row-gap:2px}
   .del .ort,.del .status{grid-column:2;text-align:left}
-  .topp nav{display:none}
   section{padding-block:60px}
-  .nasta-rad{flex-wrap:wrap;gap:8px 20px}
 }
 </style>
 </head>
@@ -179,12 +181,12 @@ footer p{margin:0;font-size:.88rem;color:#b9c3c4;max-width:44ch}
 
 <header class="topp">
   <div class="inre">
-    <a href="#"><img class="ordbild" src="img/wordmark-ink.png" alt="De oskrivna" width="1200" height="160"></a>
+    <a href="#"><img class="ordbild" src="img/ordmarke-svart.svg" alt="De oskrivna" width="1000" height="175"></a>
     <nav aria-label="Sidans delar">
       <a href="#serien">Böckerna</a>
       <a href="#utdrag">Läs ett utdrag</a>
       <a href="#album">Album</a>
-      <a href="#forfattaren">Om författaren</a>
+      <a href="#forfattaren">Författaren</a>
       <a href="#kop">Köp</a>
     </nav>
   </div>
@@ -192,24 +194,23 @@ footer p{margin:0;font-size:.88rem;color:#b9c3c4;max-width:44ch}
 
 <main>
   <section class="hjalte">
-    <div class="inre hjalte-grid">
-      <div class="hjalte-text">
-        <p class="ort-etikett">Paris 1241</p>
-        <h1>Vem tror<br>på Jean?</h1>
-        <p class="under">Trettioen steg · Ett tidsreseäventyr för 11–13 år.</p>
+    <div class="hjalte-bild">
+      <img src="img/paris-panorama.jpg" alt="Alva, Sofia och Elias hukar i en stentrappa vid bygget av Notre-Dame år 1241. Katten Leo smyger nedför stegen." width="1672" height="941">
+      <div class="blindfalt">
+        <p class="meta">Paris 1241 <span aria-hidden="true">/</span> Del 1</p>
+        <h1>Trettioen<br>steg</h1>
+        <p class="tagg">Ett ras vid Notre-Dame.<br>En pojke får skulden.</p>
         <div class="knappar">
-          <a class="knapp full" href="#utdrag">Läs första kapitlet</a>
+          <a class="knapp full" href="#utdrag">Läs ett utdrag</a>
           <a class="knapp tom" href="#kop">Köp boken</a>
         </div>
       </div>
-      <figure class="hjalte-bild">
-        <img src="img/scen-paris.jpg" alt="Alva, Elias och Sofia vid bygget av Notre-Dame år 1241. Sofia håller Alva i ärmen och katten Leo sitter på en sten bredvid." width="1400" height="933">
-        <span class="remsa"><span>Paris / 1241</span><span>Del 1</span></span>
-      </figure>
     </div>
     <div class="inre nasta-rad">
-      <span class="nasta-etikett">Nästa bok</span>
-      <span class="nasta-titel">Den som blir kvar</span>
+      <div>
+        <span class="nasta-etikett">Nästa bok</span>
+        <span class="nasta-titel">Den som blir kvar</span>
+      </div>
       <span class="nasta-status">Kommande</span>
     </div>
   </section>
@@ -226,7 +227,7 @@ footer p{margin:0;font-size:.88rem;color:#b9c3c4;max-width:44ch}
         <p>Men varje gång kartan öppnar sig måste de välja. Gå hem. Eller stanna lite till.</p>
         <p class="citat">Någon har valt fel förut.<br>Och i dimman vid kajen står en man som vet vad de bär.</p>
       </div>
-      <figure class="boken-bild"><img src="img/leo-kartan.jpg" alt="Katten Leo kliver ut på kartan. Där tassen landar börjar en kartblå linje lysa." width="647" height="1150" loading="lazy"></figure>
+      <figure class="boken-bild"><img src="img/trettioen-steg-framsida.jpg" alt="Omslaget till Trettioen steg: Alva, Sofia och Elias hukar i en stentrappa vid Notre-Dame, med det gula titelfältet nedtill." width="700" height="1050" loading="lazy"><figcaption>Omslaget, formprov</figcaption></figure>
       </div>
     </div>
   </section>
@@ -393,11 +394,11 @@ footer p{margin:0;font-size:.88rem;color:#b9c3c4;max-width:44ch}
         <p class="liten">Varje bok utspelar sig i en ny stad och en ny tid. Serien är planerad till fem böcker.</p>
       </div>
       <ol class="delar">
-        <li class="del" style="--bok:#72D1DE"><span class="nr">Del 1</span><span class="titel">Trettioen steg</span><span class="ort">Paris 1241</span><span class="status">Snart</span></li>
-        <li class="del" style="--bok:#EF9B79"><span class="nr">Del 2</span><span class="titel">Den som blir kvar</span><span class="ort">Lissabon</span><span class="status">Kommande</span></li>
-        <li class="del tom" style="--bok:#E2BA61"><span class="nr">Del 3</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
-        <li class="del tom" style="--bok:#DF7C85"><span class="nr">Del 4</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
-        <li class="del tom" style="--bok:#9BBF9F"><span class="nr">Del 5</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
+        <li class="del" style="--bok:#F2DB72"><span class="nr">Del 1</span><span class="titel">Trettioen steg</span><span class="ort">Paris 1241</span><span class="status">Snart</span></li>
+        <li class="del" style="--bok:#EBAAA7"><span class="nr">Del 2</span><span class="titel">Den som blir kvar</span><span class="ort">Lissabon</span><span class="status">Kommande</span></li>
+        <li class="del tom" style="--bok:#A1D8B9"><span class="nr">Del 3</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
+        <li class="del tom" style="--bok:#A1CBE0"><span class="nr">Del 4</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
+        <li class="del tom" style="--bok:#C0AEE4"><span class="nr">Del 5</span><span class="titel">–</span><span class="ort"></span><span class="status">Kommande</span></li>
       </ol>
     </div>
   </section>
@@ -480,7 +481,7 @@ footer p{margin:0;font-size:.88rem;color:#b9c3c4;max-width:44ch}
 <footer>
   <div class="inre">
     <div>
-      <img class="ordbild" src="img/wordmark-paper.png" alt="De oskrivna" width="1200" height="160">
+      <img class="ordbild" src="img/ordmarke-vit.svg" alt="De oskrivna" width="1000" height="175">
       <p>De oskrivna är en serie historiska tidsreseäventyr för 11–13 år. Del 1, Trettioen steg, utspelar sig i Paris år 1241.</p>
     </div>
     <img class="forlag" src="img/gerdes-katt.svg" alt="Gerdes &amp; Katt, Stockholm">
